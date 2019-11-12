@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component, PropTypes } from 'react';
 import './App.css';
+import { ProgressBar, ButtonToolbar, Button, Table} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick = async () => {
+    const response = await fetch('/api/test');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log("server response = ", body);
+  };
+
+  render() {
+    return (
+    <div>
+      <h>Overall Code Rating</h>
+      <ProgressBar now={60} />
+      <br></br>
+      <ButtonToolbar>
+        <Button onClick={this.handleClick} variant="primary">Analyze Complexity</Button>
+      </ButtonToolbar>
+      <br></br>
     </div>
   );
+    }
 }
 
 export default App;

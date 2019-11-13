@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ChartWrapper from './ChartWrapper';
 import './App.css';
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { ButtonToolbar, Button, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export class App extends Component {
@@ -31,7 +31,9 @@ export class App extends Component {
               </Button>
             </ButtonToolbar>
           </div>
-          <ChartWrapper />
+          <Container>
+            <ChartWrapper />
+          </Container>
         </body>
       </div>
     );

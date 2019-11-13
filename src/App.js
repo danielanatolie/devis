@@ -20,7 +20,6 @@ export class App extends Component {
   render() {
     return (
       <div className="App">
-        <ChartWrapper />
         <header>
           <p className="title">Devis</p>
         </header>
@@ -32,6 +31,7 @@ export class App extends Component {
               </Button>
             </ButtonToolbar>
           </div>
+          <ChartWrapper />
         </body>
       </div>
     );

@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import ChartWrapper from './ChartWrapper';
 import './App.css';
-import { ProgressBar, ButtonToolbar, Button, Table } from 'react-bootstrap';
+import { ButtonToolbar, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export class App extends Component {
@@ -19,21 +20,17 @@ export class App extends Component {
   render() {
     return (
       <div className="App">
+        <ChartWrapper />
         <header>
           <p className="title">Devis</p>
         </header>
-
         <body>
           <div className="container">
-            <h>Overall Code Rating</h>
-            <ProgressBar now={60} />
-            <br></br>
             <ButtonToolbar>
               <Button onClick={this.handleClick} variant="primary">
                 Analyze Complexity
               </Button>
             </ButtonToolbar>
-            <br></br>
           </div>
         </body>
       </div>

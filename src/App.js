@@ -21,7 +21,7 @@ export class App extends Component {
     return (
       <div className="App">
         <header>
-          <p className="title">Devis</p>
+          <p className="title">Tech Debt Estimator</p>
         </header>
         <body>
           <div className="container">

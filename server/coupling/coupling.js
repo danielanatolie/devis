@@ -48,20 +48,22 @@ class Coupling {
         return importMap;
     }
 
-    // readEachFile() {
-    //     const content = fs.readFileSync("test/project1/files/appServiceProvider.ts", "UTF-8");
-    //     const lines = content.split("\n");
-    //     lines.forEach(line => {
-            
-    //         if (line.trim().split(" ")[0] !== "import") {
-    //             console.log(line.trim());
-    //         }
-    //     })
-    // }
+    getLastImportLine() {
+        const content = fs.readFileSync("test/project1/files/appServiceProvider.ts", "UTF-8");
+        let counter = 0;
+        let lastImport = 0;
+        content.split("\n").forEach(line => {
+            counter++;
+            if (line.split(" ")[0] == "import") {
+                lastImport = counter;
+            }
+        });
+        return lastImport;
+    }
 }
 
 let x = new Coupling("");
-let y = x.extractImports();
+let y = x.getLastImportLine();
 console.log("");
 
 

@@ -31,8 +31,8 @@ class Coupling {
 }
 
 
-let c = new Coupling("project1");
-let x = c.countAllDependencies();
-console.log(Object.keys(x).length);
+// let c = new Coupling("project1");
+// let x = c.countAllDependencies();
+// console.log(Object.keys(x).length);
 
 module.exports = Coupling;

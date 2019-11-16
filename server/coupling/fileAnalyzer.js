@@ -22,9 +22,6 @@ class FileAnalyzer {
 
     extractImports() {
         let importMap = new Map();
-        if (this.filename === "constants.ts") {
-            return importMap;
-        }
         let lineNum = 1;
         while (lineNum <= this.lastImportLine) {
             let curLine = this.lines[lineNum - 1];
@@ -33,7 +30,7 @@ class FileAnalyzer {
                     const filename = curLine.split(" ").pop().split("/").pop().replace("\";", "");
                     const values = curLine.split("{").pop().split("}")[0].split(",");
                     values.forEach(key => {
-                        importMap.set(key.trim(), filename);
+                        importMap.set(key.trim(), filename + ".ts");
                     })
                 }
             }
@@ -44,7 +41,7 @@ class FileAnalyzer {
                 };
                 const filename = this.lines[lineNum - 1].split(" ").pop().split("/").pop().replace("\";", "");
                 _.range(checker, lineNum - 1).forEach(x => {
-                    importMap.set(this.lines[x].replace(",", "").trim(), filename);
+                    importMap.set(this.lines[x].replace(",", "").trim(), filename + ".ts");
                 });
 
             }
@@ -60,16 +57,17 @@ class FileAnalyzer {
         _.range(this.lastImportLine, this.lines.length).forEach(x => {
             keys.forEach(key => {
                 if (this.lines[x].indexOf(key) > 0) {
-                    result[this.filename + "&&" + importMap.get(key) + ".ts"] = result[this.filename + "&&" + importMap.get(key) + ".ts"] + 1 || 1;
+                    const dependencyName = this.generateDependencyName(this.filename, importMap.get(key));
+                    result[dependencyName] = result[dependencyName] + 1 || 1;
                 }
             });
         });
         return result;
     }
-}
 
-let c = new FileAnalyzer("project1", "generate-test.ts");
-let x = c.countDependencies();
-console.log("here");
+    generateDependencyName(name1, name2) {
+        return name1 < name2 ? name1 + "&&" + name2 : name2 + "&&" + name1;
+    }
+}
 
 module.exports = FileAnalyzer; 

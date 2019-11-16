@@ -28,16 +28,11 @@ class Coupling {
         return result;
 
     }
-
-    static cleanDependencyMap(result) {
-
-    }
-
 }
 
 
 let c = new Coupling("project1");
 let x = c.countAllDependencies();
-console.log("hello");
+console.log(Object.keys(x).length);
 
 module.exports = Coupling;

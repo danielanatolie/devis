@@ -1,18 +1,11 @@
 import * as d3 from "d3";
 
-const data = [
-  { name: "file 1", debt: 25 },
-  { name: "file 2", debt: 15 },
-  { name: "file 3", debt: 30 },
-  { name: "file 4", debt: 20 }
-];
-
 const MARGIN = { TOP: 10, BOTTOM: 50, LEFT: 70, RIGHT: 10 };
 const WIDTH = 500 - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = 500 - MARGIN.TOP - MARGIN.BOTTOM;
 const DANGER_ZONE = 100;
 export default class D3Chart {
-  constructor(element) {
+  constructor(element, data) {
     const max = d3.max(data, d => {
       return d.debt;
     });

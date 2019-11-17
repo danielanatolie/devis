@@ -4,6 +4,10 @@ const _ = require('underscore');
 const util = require('util');
 const readdir = util.promisify(fs.readdir);
 
+const FUNC_LEN_LIMIT = 10;
+const AVG_LINE_LEN_LIMIT = 40;
+const IF_COUNT_LIMIT = 3;
+
 let fileToDebtMap = new Map();
 
 buildFileToDebtMap = async () => {
@@ -18,7 +22,7 @@ buildFileToDebtMap = async () => {
             analyzeFile(fileNames[i], fileData.split("\n"));
         })
     })
-    return fileToDebtMap;
+    return Object.fromEntries(fileToDebtMap);
 }
 
 getAllFiles = (fileNames) => {
@@ -82,27 +86,27 @@ computeFileComplexity = (fileName, fnToDataMap) => {
 
 computeFnDebt = (fnData) => {
     let fnDebt = 0;
-    if (isLongFunction(fnData)) fnDebt++;
-    if (hasLongLines(fnData)) fnDebt++;
-    if (hasManyIfs(fnData)) fnDebt++;
+    if (isLongFunction(fnData) || 
+        hasLongLines(fnData) ||
+        hasManyIfs(fnData)) fnDebt++;
     return fnDebt;
 }
 
-isLongFunction = (fnData) => { return fnData.length > 10; }
+isLongFunction = (fnData) => { return fnData.length > FUNC_LEN_LIMIT; }
 
 hasLongLines = (fnData) => {
     let totalLineLen = 0;
     for (let i = 0; i < fnData.length; i++) {
         totalLineLen += fnData[i].length;
     }
-    return totalLineLen/fnData.length > 40;
+    return totalLineLen/fnData.length > AVG_LINE_LEN_LIMIT;
 }
 
 hasManyIfs = (fnData) => {
     let ifCount = 0;
     for (let i = 0; i < fnData.length; i++) 
         if (fnData[i].includes("if")) ifCount++;
-    return ifCount >= 3;
+    return ifCount >= IF_COUNT_LIMIT;
 }
 
 module.exports = {

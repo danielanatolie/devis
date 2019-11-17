@@ -8,10 +8,9 @@ app.use(pino);
 
 app.get('/api/test', async (req, res) => {
   const name = req.query.name || 'World';
-  const test = await fileDebt.buildFileToDebtMap();
-  console.log("YOOO: ", test);
+  const fileToDebtMap = await fileDebt.buildFileToDebtMap();
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ greeting: `Hello ${name}!`, fileToDebtMap: test }));
+  res.send(JSON.stringify({ greeting: `Hello ${name}!`, fileToDebtMap }));
 });
 
 app.listen(3001, () =>

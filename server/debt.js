@@ -1,27 +1,49 @@
 const fs = require('fs');
 const testFolderPath = './test/project1/files';
 const _ = require('underscore');
+const util = require('util');
+const readdir = util.promisify(fs.readdir);
 
 let fileToDebtMap = new Map();
 
 buildFileToDebtMap = async () => {
-    return fs.readdir(testFolderPath, function(err, items) {
-        items.map((fileName) => {
-            getFileDebt(fileName);
-        });
-    });
+    let fileNames;
+    try {
+        fileNames = await readdir(testFolderPath);
+    } catch (err) {
+        console.log(err);
+    }
+    await getAllFiles(fileNames).then((fileDataArr) => {
+        fileDataArr.forEach((fileData, i) => {
+            analyzeFile(fileNames[i], fileData.split("\n"));
+        })
+    })
+    return fileToDebtMap;
 }
 
-getFileDebt = async (fileName) => {
-    fs.readFile(testFolderPath+"/"+fileName, {encoding: 'utf-8'}, function(err,data){
-        analyzeFile(fileName, data.split("\n"));
-    });
+getAllFiles = (fileNames) => {
+    let promises = fileNames.map((fileName) => getFile(fileName));
+    return Promise.all(promises);
 }
+
+getFile = (fileName) => {
+    return fs.readFileAsync(testFolderPath+"/"+fileName);
+} 
+
+fs.readFileAsync = function(filename) {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(filename, {encoding: 'utf-8'}, function(err, data){
+            if (err) 
+                reject(err); 
+            else 
+                resolve(data);
+        });
+    });
+};
 
 analyzeFile = (fileName, fileDataArr) => {
     let fnCount = 0;
     let fnToDataMap = new Map();
-    console.log("analyzing file: ", fileName);
     let lineNum = 0;
     while (lineNum < fileDataArr.length) {
         if (isFunctionDec(fileDataArr[lineNum++])) {
@@ -55,7 +77,6 @@ computeFileComplexity = (fileName, fnToDataMap) => {
     for (let i = 0; i < fnToDataMap.size; i++) {
         totalFileDebt += computeFnDebt(fnToDataMap.get(i));
     }
-    console.log(fileName, " has debt = ", totalFileDebt);
     fileToDebtMap.set(fileName, totalFileDebt);
 }
 
@@ -84,4 +105,6 @@ hasManyIfs = (fnData) => {
     return ifCount >= 3;
 }
 
-buildFileToDebtMap();
+module.exports = {
+    buildFileToDebtMap: buildFileToDebtMap
+}

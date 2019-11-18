@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ChartWrapper from "./ChartWrapper";
+import VisNetwork from "./VisNetwork";
 import "./App.css";
 import { ButtonToolbar, Button, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +11,8 @@ export class App extends Component {
 
     this.state = {
       showBarGraph: false,
-      barGraphData: []
+      barGraphData: [],
+      couplingData: []
     };
   }
 
@@ -21,6 +23,9 @@ export class App extends Component {
     console.log("server response = ", body);
     this.setState({
       barGraphData: this.filterData(body.fileToDebtMap)
+    });
+    this.setState({
+      couplingData: body.couplingData
     });
   };
 
@@ -38,6 +43,11 @@ export class App extends Component {
     return fileToDebt.slice(0, 10);
   };
 
+  displayCouplingGraph = () => {
+    console.log("coupling data is: ");
+    console.log(this.state.couplingData)
+  }
+
   render() {
     const showBarGraph = this.state.showBarGraph;
 
@@ -54,12 +64,24 @@ export class App extends Component {
               </Button>
             </ButtonToolbar>
           </div>
-
+          <div className="container">
+          <ButtonToolbar>
+              <Button onClick={this.displayCouplingGraph} variant="primary">
+                Analyze Coupling
+              </Button>
+            </ButtonToolbar>
+          </div>
+          <div class = "vis-container">
+          <Container>
+              <VisNetwork/>
+          </Container>
+          </div>
           <Container>
             {showBarGraph ? (
               <ChartWrapper data={this.state.barGraphData} />
             ) : null}
           </Container>
+          
         </body>
       </div>
     );

@@ -1,16 +1,12 @@
 import * as d3 from "d3";
 
-const MARGIN = { TOP: 10, BOTTOM: 50, LEFT: 70, RIGHT: 10 };
+const MARGIN = { TOP: 10, BOTTOM: 150, LEFT: 70, RIGHT: 10 };
 const WIDTH = 500 - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = 500 - MARGIN.TOP - MARGIN.BOTTOM;
-const DANGER_ZONE = 100;
+const DANGER_ZONE = 5;
 export default class D3Chart {
   constructor(element, data) {
     const max = d3.max(data, d => {
-      return d.debt;
-    });
-
-    const min = d3.min(data, d => {
       return d.debt;
     });
 
@@ -35,11 +31,16 @@ export default class D3Chart {
 
     const xAxis = d3.axisBottom(x);
     const yAxis = d3.axisLeft(y);
+
     svg
       .append("g")
       .attr("transform", `translate(0, ${HEIGHT})`)
       .attr("stroke", "white")
-      .call(xAxis);
+      .call(xAxis)
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("transform", "rotate(-75)");
+
     svg
       .append("g")
       .attr("stroke", "white")
@@ -47,10 +48,12 @@ export default class D3Chart {
 
     svg.selectAll("path").style("stroke", "white");
     svg.selectAll("line").style("stroke", "white");
+
+    //Labels
     svg
       .append("text")
       .attr("x", WIDTH / 2)
-      .attr("y", HEIGHT + 40)
+      .attr("y", HEIGHT + MARGIN.BOTTOM)
       .attr("text-anchor", "middle")
       .attr("stroke", "white")
       .text("File Name");
@@ -80,9 +83,9 @@ export default class D3Chart {
       .enter()
       .append("rect")
       .attr("x", d => x(d.name))
-      .attr("width", 50)
+      .attr("width", 20)
       .attr("fill", d => {
-        if (d.debt > 20) {
+        if (d.debt > 5) {
           return "red";
         }
         return "grey";

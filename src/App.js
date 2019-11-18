@@ -14,20 +14,28 @@ export class App extends Component {
     };
   }
 
-  handleClick = async () => {
+  componentDidMount = async () => {
     const response = await fetch("/api/test");
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     console.log("server response = ", body);
     this.setState({
-      barGraphData: [
-        { name: "file 1", debt: 25 },
-        { name: "file 2", debt: 15 },
-        { name: "file 3", debt: 30 },
-        { name: "file 4", debt: 20 }
-      ]
+      barGraphData: this.filterData(body.fileToDebtMap)
     });
+  };
+
+  handleClick = () => {
     this.setState({ showBarGraph: true });
+  };
+
+  filterData = data => {
+    const fileToDebt = [];
+
+    Object.keys(data).forEach(key => {
+      fileToDebt.push({ name: key, debt: data[key] });
+    });
+    fileToDebt.sort((a, b) => (a.debt < b.debt ? 1 : -1));
+    return fileToDebt.slice(0, 10);
   };
 
   render() {

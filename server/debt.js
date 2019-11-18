@@ -17,6 +17,7 @@ buildFileToDebtMap = async () => {
     } catch (err) {
         console.log(err);
     }
+    fileNames = fileNames.filter(fileName => fileName.includes(".ts"));
     await getAllFiles(fileNames).then((fileDataArr) => {
         fileDataArr.forEach((fileData, i) => {
             analyzeFile(fileNames[i], fileData.split("\n"));

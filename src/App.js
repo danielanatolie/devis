@@ -25,7 +25,7 @@ export class App extends Component {
       barGraphData: this.filterData(body.fileToDebtMap)
     });
     this.setState({
-      couplingData: body.couplingData
+      couplingData: this.createEdgeWeights(body.couplingData[0])
     });
   };
 
@@ -42,6 +42,16 @@ export class App extends Component {
     fileToDebt.sort((a, b) => (a.debt < b.debt ? 1 : -1));
     return fileToDebt.slice(0, 10);
   };
+
+  createEdgeWeights = data => {
+    var edges = [];
+    Object.keys(data).forEach(key => {
+      var filenames = key.split("&&");
+      edges.push({from: filenames[0], to: filenames[1]})
+    })
+    console.log(edges)
+    }
+  
 
   displayCouplingGraph = () => {
     console.log("coupling data is: ");
@@ -73,7 +83,7 @@ export class App extends Component {
           </div>
           <div class = "vis-container">
           <Container>
-              <VisNetwork/>
+              <VisNetwork />
           </Container>
           </div>
           <Container>

@@ -24,8 +24,7 @@ body {
   width: 600px;
   height: 400px;
   border: 1px solid lightgray;
-  display: flex;
-  justify-content: center
+  background-color: antiquewhite;
 }
 
 .container {

@@ -16,16 +16,21 @@ class Coupling {
     }
 
     countAllDependencies() {
+        let return_values = [];
         let result = {};
+        let filenames = [];
         this.getTSFiles()
         this.tsFiles.forEach((filename) => {
+            filenames.push(filename)
             const fileAnalyzer = new FileAnalyzer(this.projectName, filename);
             const fileDependencies = fileAnalyzer.countDependencies();
             for (let dependency in fileDependencies) {
                 result[dependency] = fileDependencies[dependency];
             }
         })
-        return result;
+        return_values.push(result);
+        return_values.push(filenames);
+        return return_values;
 
     }
 }

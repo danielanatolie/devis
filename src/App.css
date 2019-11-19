@@ -20,6 +20,12 @@ body {
   margin: 0;
 }
 
+.caption {
+  color: white;
+  font-size: 20;
+  padding-top: 10px;
+}
+
 .vis-container {
   width: 700px;
   height: 700px;
@@ -32,9 +38,8 @@ body {
 .bar-graph-container{
   width: 600px;
   height: 600px;
-  /* align-items: flex-start; */
   font-family: 'Courier New';
-  padding-bottom: 50px;
+  padding-right: 50px;
   display: flex;
   flex-direction: column;
   

@@ -95,6 +95,9 @@ export class App extends Component {
                   Analyze Complexity
                 </Button>
               </ButtonToolbar>
+              <p className="caption">Complexity measures whether a function is a large function, 
+                                    has many IF statements, or has long lines. 
+                                    A debt score is then calculated based on these criterias. </p>
               <Container>
                 {showBarGraph ? (
                   <ChartWrapper data={this.state.barGraphData} />
@@ -108,6 +111,7 @@ export class App extends Component {
                   Analyze Coupling
                 </Button>
               </ButtonToolbar>
+              <p className="caption">Coupling is defined as how many times a class refers to other classes. </p>
               <Container>
                 {showCouplingGraph ? (
                     <VisNetwork data={this.state.couplingData} />

@@ -21,15 +21,12 @@ export class App extends Component {
     const response = await fetch("/api/test");
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    // console.log("server response = ", body);
     this.setState({
       barGraphData: this.filterData(body.fileToDebtMap)
     });
     this.setState({
       couplingData: this.createVisData(body.couplingData)
     });
-    console.log("im normal")
-    console.log(this.state.couplingData)
   };
 
   handleClick = () => {

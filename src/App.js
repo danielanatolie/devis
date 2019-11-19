@@ -11,6 +11,7 @@ export class App extends Component {
 
     this.state = {
       showBarGraph: false,
+      showCouplingGraph: false,
       barGraphData: [],
       couplingData: []
     };
@@ -20,13 +21,15 @@ export class App extends Component {
     const response = await fetch("/api/test");
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    console.log("server response = ", body);
+    // console.log("server response = ", body);
     this.setState({
       barGraphData: this.filterData(body.fileToDebtMap)
     });
     this.setState({
-      couplingData: this.createEdgeWeights(body.couplingData[0])
+      couplingData: this.createVisData(body.couplingData)
     });
+    console.log("im normal")
+    console.log(this.state.couplingData)
   };
 
   handleClick = () => {
@@ -43,23 +46,40 @@ export class App extends Component {
     return fileToDebt.slice(0, 10);
   };
 
-  createEdgeWeights = data => {
+  createVisData = data => {
+    var result = []
     var edges = [];
-    Object.keys(data).forEach(key => {
-      var filenames = key.split("&&");
-      edges.push({from: filenames[0], to: filenames[1]})
-    })
-    console.log(edges)
-    }
+    var nodes = []
   
+    for (var i = 0; i < data[1].length; i ++) {
+      nodes.push({id: i, label: data[1][i]})
+    }
+    Object.entries(data[0]).forEach(element => {
+      var filenames = element[0].split("&&");
+      var fromFileIndex;
+      var toFileIndex;
+      for (var i = 0; i < nodes.length; i++){
+        if (filenames[0] == nodes[i]['label']){
+          fromFileIndex = nodes[i]['id']
+        }
+        if (filenames[1] == nodes[i]['label']){
+          toFileIndex = nodes[i]['id']
+        }
+      }
+      edges.push({from: fromFileIndex, to: toFileIndex, value:element[1]})
+    })
+    result.push(nodes)
+    result.push(edges)
+    return result
+    }
 
   displayCouplingGraph = () => {
-    console.log("coupling data is: ");
-    console.log(this.state.couplingData)
+    this.setState({ showCouplingGraph: true });
   }
 
   render() {
     const showBarGraph = this.state.showBarGraph;
+    const showCouplingGraph = this.state.showCouplingGraph;
 
     return (
       <div className="App">
@@ -83,7 +103,9 @@ export class App extends Component {
           </div>
           <div class = "vis-container">
           <Container>
-              <VisNetwork />
+          {showCouplingGraph ? (
+              <VisNetwork data={this.state.couplingData} />
+            ) : null}
           </Container>
           </div>
           <Container>

@@ -88,32 +88,33 @@ export class App extends Component {
         </header>
         <body>
           <div className="container">
-            <ButtonToolbar>
-              <Button onClick={this.handleClick} variant="primary">
-                Analyze Complexity
-              </Button>
-            </ButtonToolbar>
+
+            <div className="bar-graph-container">
+              <ButtonToolbar>
+                <Button onClick={this.handleClick} variant="primary">
+                  Analyze Complexity
+                </Button>
+              </ButtonToolbar>
+              <Container>
+                {showBarGraph ? (
+                  <ChartWrapper data={this.state.barGraphData} />
+                ) : null}
+              </Container>
+            </div>
+            
+            <div className="vis-container">
+              <ButtonToolbar>
+                <Button onClick={this.displayCouplingGraph} variant="primary">
+                  Analyze Coupling
+                </Button>
+              </ButtonToolbar>
+              <Container>
+                {showCouplingGraph ? (
+                    <VisNetwork data={this.state.couplingData} />
+                  ) : null}
+              </Container>
+            </div>
           </div>
-          <div className="container">
-          <ButtonToolbar>
-              <Button onClick={this.displayCouplingGraph} variant="primary">
-                Analyze Coupling
-              </Button>
-            </ButtonToolbar>
-          </div>
-          <div class = "vis-container">
-          <Container>
-          {showCouplingGraph ? (
-              <VisNetwork data={this.state.couplingData} />
-            ) : null}
-          </Container>
-          </div>
-          <Container>
-            {showBarGraph ? (
-              <ChartWrapper data={this.state.barGraphData} />
-            ) : null}
-          </Container>
-          
         </body>
       </div>
     );

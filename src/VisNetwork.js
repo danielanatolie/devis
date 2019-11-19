@@ -12,8 +12,13 @@ export default class VisNetwork extends Component {
             nodes: nodes,
             edges: edges
         };
-        var options = {};
+        var options = {
+            autoResize: true,
+            height: '600px',
+            width: '600px'
+        };
         var network = new vis.Network(this.refs.myRef, data, options);
+        network.fit()
     }
 
     render()  {

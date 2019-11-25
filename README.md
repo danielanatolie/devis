@@ -2,6 +2,8 @@
 
 Developed for engineering leads, our project provides technical debt information through visual graphs by doing software quality analysis. This allows leads to make sure that their projects are not decaying overtime.
 
+Video Demo: https://www.youtube.com/watch?v=n6yEMbD4Q9Q
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

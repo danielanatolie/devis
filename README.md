@@ -33,17 +33,21 @@ Front-Backend Setup: https://github.com/danielanatolie/devis/pull/2
 Created a parsing algorithm to detect functions and trigger debt calculations based on various complexity metrics such as function length and amount of parameters passed.
 
 ### Jasmin Goh
+Couling Analysis: https://github.com/danielanatolie/devis/pull/8
 Analyze coupling between ts files. Iterate through all the ts file, count the number of times that an external method is used and figure out which class that method is from. A dependency map with counter is produced for each ts file. 
 
 ### Ari
+Bar Graph Generation: https://github.com/danielanatolie/devis/pull/10
 Built a bar graph for visualizing tech debt. The bar graph was built using D3.js library in a React environment. Created wrapper component to use React and D3 together as they both want to control the DOM. Then implemented the chart component, which uses svg. The data that is  used in the graph is from the BE, which is then filtered in the FE to display top 10 files.
 
 ### Pedraum
+Cyclomatic Complexity Analysis: https://github.com/danielanatolie/devis/pull/13
 Error, warning and cyclomatic complexity analysis of js and ts files. Called the ESLint library to iterate through a code base of js and ts files. Used the error count, warning count and cyclomatic complexity count of the ESLint result 
 to produce a json object used for the analysis. However, we decided to discontinue this analysis as we felt it will be complicated and time consuming to visualize the data.
 
 ## Frontend Team
 ### Ellen
+Coupling Graph Generation: https://github.com/danielanatolie/devis/pull/19
 Produce visualization for coupling & conducted the first user study. For visualization, I used a library called Vis.js to create the actual network graph. I first manipulated the dependency map that Jasmin created to fit the data requirements of Vis.js. I then created a component to call the library, and did some html stuff so that everything displays properly. 
 
 # User Studies
@@ -61,4 +65,3 @@ Question 1: Which file has the most technical debt?
 Question 2: Which files have the most amount of coupling?
 Question 3: How could the design be improved?
 Question 4: How many buttons would you find helpful 1 or 2?
-
